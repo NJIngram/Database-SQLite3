@@ -20,15 +20,15 @@ select tracks.title, albums.title as album_title, printf('%02d:%02d', tracks.dur
 select albums.title, count(tracks.id) as track_count from albums join tracks on albums.id = tracks.album_id group by albums.id order by track_count desc;
 
 -- Q7: Artists with more than one album.
-
+select artists.name, count(albums.id) as album_count from artists join albums on artists.id = albums.artist_id group by artists.id having album_count > 1;
 
 -- Q8: Tracks longer than 5 minutes — track title, album title, artist name.
-
+select tracks.title, albums.title as album_title, artists.name from tracks join albums on tracks.album_id = albums.id join artists on albums.artist_id = artists.id where tracks.duration_sec > 300;
 
 -- Q9: Average track duration per genre (in seconds, rounded to 1 decimal).
-
+select genres.name, round(avg(tracks.duration_sec), 1) as avg_duration from genres join albums on genres.id = albums.genre_id join tracks on albums.id = tracks.album_id group by genres.id;
 
 -- Q10: Artist with the most total tracks — artist name and total count.
-
+select artists.name, count(tracks.id) as total_tracks from artists join albums on artists.id = albums.artist_id join tracks on albums.id = tracks.album_id group by artists.id order by total_tracks desc limit 1;
 
 -- BONUS: Per-album summary (title, artist, genre, track count, total minutes).
